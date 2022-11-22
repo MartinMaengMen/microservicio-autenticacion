@@ -37,8 +37,8 @@ functions:
     handler: src/userLambda.login
     events:
       - httpApi:
-          path: /authentication/{id}
-          method: get
+          path: /authentication/login
+          method: post
 resources:
   Resources:
     users:

@@ -29,22 +29,24 @@ const login = async (event)=>{
     try{
         const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-        const {id} = event.pathParameters
-    
-        const result = await dynamodb.get({
+        const {email} = JSON.parse(event.body)
+
+        var params = {
             TableName: 'users',
-            Key: {
-                id : id
+            FilterExpression: '#email = :email',
+            ExpressionAttributeNames: { "#email": "email" },
+            ExpressionAttributeValues: {
+            ':email': email
             }
-        }).promise()
-    
-        const res = result.Item;
-    
-        console.log(res)
+        };
+
+        const result = await dynamodb.scan(params).promise();
+
+        const res = result.Items;
         
         return {
             status: 200,
-            body: {res}
+            body: res
         }
     }
     catch(error){
