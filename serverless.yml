@@ -22,7 +22,7 @@ functions:
           path: /
           method: get
   register:
-    handler: src/userLambda.registerUser
+    handler: src/userLambda.register
     events:
       - httpApi:
           path: /authentication

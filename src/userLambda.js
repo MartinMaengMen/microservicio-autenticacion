@@ -1,7 +1,7 @@
 const {v4} = require('uuid')
 const AWS = require('aws-sdk')
 
-const registerUser = async (event)=>{
+const register = async (event)=>{
     const dynamodb = new AWS.DynamoDB.DocumentClient();
 
     const {email,name,surname,dni,beneficiary} = JSON.parse(event.body)
@@ -69,4 +69,4 @@ const getUsers = async(event)=>{
         console.log(error)
     }
 }
-module.exports = {registerUser,login,getUsers}
+module.exports = {register,login,getUsers}
