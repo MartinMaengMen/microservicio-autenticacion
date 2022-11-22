@@ -1,0 +1,58 @@
+org: marting199612
+app: microservicios
+service: authentication-lambda
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: 'sa-east-1'
+  #Permite escribir en la base de datos que se creo en resources
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:sa-east-1:571202862746:table/users
+functions:
+  hello:
+    handler: src/handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+  register:
+    handler: src/userLambda.registerUser
+    events:
+      - httpApi:
+          path: /authentication
+          method: post
+  getUsers:
+    handler: src/userLambda.getUsers
+    events:
+      - httpApi:
+          path: /authentication
+          method: get
+  login:
+    handler: src/userLambda.login
+    events:
+      - httpApi:
+          path: /authentication/{id}
+          method: get
+resources:
+  Resources:
+    users:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: users
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        
+        
