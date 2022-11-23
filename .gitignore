@@ -7,6 +7,8 @@ jspm_packages
 
 secrets.json
 
+swagger
+
 # lock files
 yarn.lock
 package-lock.json
