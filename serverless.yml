@@ -5,12 +5,15 @@ frameworkVersion: '3'
 plugins:
   - serverless-auto-swagger
 custom:
+    secrets: ${file(secrets.json)}
     autoswagger:
         apiType: 'http'
 provider:
   name: aws
   runtime: nodejs14.x
   region: 'sa-east-1'
+  environment:
+    JWT_SECRET: ${self:custom.secrets.JWT_SECRET}
   #Permite escribir en la base de datos que se creo en resources
   iamRoleStatements:
     - Effect: Allow

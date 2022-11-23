@@ -5,5 +5,8 @@ jspm_packages
 # Serverless directories
 .serverless
 
-#swagger
-swagger
+secrets.json
+
+# lock files
+yarn.lock
+package-lock.json
