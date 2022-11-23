@@ -4,6 +4,6 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "jsonwebtoken": "^8.5.1",
-    "serverless-openapi-documentation": "^0.4.0"
+    "serverless-auto-swagger": "^2.11.0"
   }
 }
