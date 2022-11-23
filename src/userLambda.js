@@ -7,26 +7,41 @@ const register = async (event)=>{
 
     const {email,password,name,surname,dni,beneficiary} = JSON.parse(event.body)
 
-    const hashPassword = await encrypt(password)
-
-    const newUser = {
-        email,
-        hashPassword,
-        name,
-        surname,
-        dni,
-        beneficiary
-    }
-    await dynamodb.put({
+    const userResult = await dynamodb.get({
         TableName: 'users',
-        Item: newUser
+        Key: {
+            'email':email
+        }
     }).promise()
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            message: "Usuario creado correctamente"
-        })
+    if(userResult.Item){
+        return {
+            statusCode: 400,
+            body: JSON.stringify({message: "El correo ya se encuentra registrado"})
+        }
+    }
+    else{
+        const hashPassword = await encrypt(password)
+
+        const newUser = {
+            email,
+            hashPassword,
+            name,
+            surname,
+            dni,
+            beneficiary
+        }
+        await dynamodb.put({
+            TableName: 'users',
+            Item: newUser
+        }).promise()
+    
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                message: "Usuario creado correctamente"
+            })
+        }
     }
 }
 const login = async (event)=>{
