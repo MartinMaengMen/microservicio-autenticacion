@@ -79,7 +79,7 @@ const getUsers = async(event)=>{
         }).promise()
         const users = result.Items
         return {
-            status: 200,
+            statusCode: 200,
             body: JSON.stringify({users})
         }
     }

@@ -2,7 +2,9 @@ org: marting199612
 app: microservicios
 service: authentication-lambda
 frameworkVersion: '3'
-
+	
+plugins:
+  - serverless-openapi-documentation
 provider:
   name: aws
   runtime: nodejs14.x
