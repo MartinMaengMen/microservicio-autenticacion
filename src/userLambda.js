@@ -24,7 +24,9 @@ const register = async (event)=>{
 
     return {
         statusCode: 200,
-        body: JSON.stringify(newUser)
+        body: JSON.stringify({
+            message: "Usuario creado correctamente"
+        })
     }
 }
 const login = async (event)=>{
@@ -42,24 +44,26 @@ const login = async (event)=>{
 
         if(!result.Item){
             return {
-                status: 404
+                statusCode: 404
             }
         }
+        
         const passHash = result.Item.hashPassword;
         const isCorrect = await decrypt(password, passHash);
         if(!isCorrect) {
             return {
-                status: 403
+                statusCode: 403
             }
           }
 
         const token = generateToken(email);
 
         return {
-            status: 200,
-            body: {
+            isBase64Encoded: false,
+            statusCode: 200,
+            body: JSON.stringify({
                 token: token
-            }
+            })
         }
     }
     catch(error){
@@ -69,13 +73,14 @@ const login = async (event)=>{
 const getUsers = async(event)=>{
     try{
         const dynamodb = new AWS.DynamoDB.DocumentClient();
+        
         const result = await dynamodb.scan({
             TableName:'users'
         }).promise()
         const users = result.Items
         return {
             status: 200,
-            body: {users}
+            body: JSON.stringify({users})
         }
     }
     catch(error){

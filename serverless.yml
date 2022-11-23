@@ -15,30 +15,41 @@ provider:
       Resource:
         - arn:aws:dynamodb:sa-east-1:571202862746:table/users
 functions:
-  hello:
-    handler: src/handler.hello
-    events:
-      - httpApi:
-          path: /
-          method: get
+  verify-token:
+    handler: src/authorizeLambda.handler
   register:
     handler: src/userLambda.register
     events:
-      - httpApi:
+      - http:
           path: /authentication/register
+          method: post    
+  login:
+    handler: src/userLambda.login
+    events:
+      - http:
+          path: /authentication/login
           method: post
   getUsers:
     handler: src/userLambda.getUsers
     events:
-      - httpApi:
-          path: /authentication
+      - http:
+          path: /getusers
           method: get
-  login:
-    handler: src/userLambda.login
+          #Proteger rutas con jwt
+          authorizer:
+            name: verify-token
+            identitySource: method.request.header.Authorization 
+            resultTtlInSeconds: 0
+  hello:
+    handler: src/handler.hello
     events:
-      - httpApi:
-          path: /authentication/login
-          method: post
+      - http:
+          path: /
+          method: get
+          authorizer:
+            name: verify-token
+            identitySource: method.request.header.Authorization 
+            resultTtlInSeconds: 0
 resources:
   Resources:
     users:
