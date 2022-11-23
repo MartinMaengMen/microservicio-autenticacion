@@ -25,7 +25,7 @@ functions:
     handler: src/userLambda.register
     events:
       - httpApi:
-          path: /authentication
+          path: /authentication/register
           method: post
   getUsers:
     handler: src/userLambda.getUsers
@@ -46,10 +46,10 @@ resources:
       Properties:
         TableName: users
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: email
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: email
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

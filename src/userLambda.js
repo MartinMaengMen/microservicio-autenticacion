@@ -1,15 +1,17 @@
-const {v4} = require('uuid')
-const AWS = require('aws-sdk')
+const AWS = require('aws-sdk');
+const { encrypt, decrypt } = require('./utils/bcrypt.handle');
+const { generateToken } = require('./utils/jwt.handle');
 
 const register = async (event)=>{
     const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-    const {email,name,surname,dni,beneficiary} = JSON.parse(event.body)
-    const id = v4()
+    const {email,password,name,surname,dni,beneficiary} = JSON.parse(event.body)
+
+    const hashPassword = await encrypt(password)
 
     const newUser = {
-        id,
         email,
+        hashPassword,
         name,
         surname,
         dni,
@@ -29,24 +31,35 @@ const login = async (event)=>{
     try{
         const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-        const {email} = JSON.parse(event.body)
+        const {email,password} = JSON.parse(event.body)
 
-        var params = {
-            TableName: 'users',
-            FilterExpression: '#email = :email',
-            ExpressionAttributeNames: { "#email": "email" },
-            ExpressionAttributeValues: {
-            ':email': email
+        const result = await dynamodb.get({
+            TableName:'users',
+            Key: {
+                'email':email
             }
-        };
+        }).promise()
 
-        const result = await dynamodb.scan(params).promise();
+        if(!result.Item){
+            return {
+                status: 404
+            }
+        }
+        const passHash = result.Item.hashPassword;
+        const isCorrect = await decrypt(password, passHash);
+        if(!isCorrect) {
+            return {
+                status: 403
+            }
+          }
 
-        const res = result.Items;
-        
+        const token = generateToken(email);
+
         return {
             status: 200,
-            body: res
+            body: {
+                token: token
+            }
         }
     }
     catch(error){
