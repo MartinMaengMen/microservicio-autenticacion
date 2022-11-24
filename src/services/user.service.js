@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const { encrypt, decrypt } = require('../utils/bcrypt.handle');
 const { generateToken } = require('../utils/jwt.handle');
+const { validateEmail } = require('../utils/validate.handle');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -42,14 +43,18 @@ const loginService = async (body)=>{
 const registerService = async (body)=>{
 
     const {email,password,name,surname,dni} = JSON.parse(body)
-
+    if(!validateEmail(email)){
+        return {
+            statusCode: 400,
+            body: JSON.stringify({message: "No es un correo valido"})
+        }
+    }
     const userResult = await dynamodb.get({
         TableName: 'users',
         Key: {
             'email':email
         }
     }).promise()
-
     if(userResult.Item){
         return {
             statusCode: 400,
