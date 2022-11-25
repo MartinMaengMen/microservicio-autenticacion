@@ -7,7 +7,7 @@ plugins:
 custom:
     secrets: ${file(secrets.json)}
     autoswagger:
-        apiType: 'http'
+        apiType: 'httpApi'
 provider:
   name: aws
   runtime: nodejs14.x
@@ -27,26 +27,27 @@ functions:
   register:
     handler: src/functions/userLambda.register
     events:
-      - http:
-          path: /authentication/register
+      - httpApi:
+          path: /register
           method: post    
   login:
     handler: src/functions/userLambda.login
     events:
-      - http:
-          path: /authentication/login
+      - httpApi:
+          path: /login
           method: post
-  getUsers:
-    handler: src/functions/userLambda.getUsers
-    events:
-      - http:
-          path: /getusers
-          method: get
+          cors: true
+#  getUsers:
+#    handler: src/functions/userLambda.getUsers
+#    events:
+#      - http:
+#          path: /getusers
+#          method: get
           #Proteger rutas con jwt
-          authorizer:
-            name: verify-token
-            identitySource: method.request.header.Authorization 
-            resultTtlInSeconds: 0
+#          authorizer:
+#            name: verify-token
+#            identitySource: method.request.header.Authorization 
+#            resultTtlInSeconds: 0
 resources:
   Resources:
     users:

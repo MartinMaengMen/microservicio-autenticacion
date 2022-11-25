@@ -30,13 +30,13 @@ const loginService = async (body)=>{
           }
 
         const token = generateToken(email);
-
+        delete result.Item.hashPassword
         return {
             isBase64Encoded: false,
             statusCode: 200,
             body: JSON.stringify({
                 token: token,
-                beneficiary: result.Item.beneficiary
+                user: result.Item
             })
         }
 }
