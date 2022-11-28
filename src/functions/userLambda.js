@@ -24,16 +24,4 @@ const login = async (event)=>{
         }
     }
 }
-const getUsers = async(event)=>{
-    try{
-        const users = await getUsersService()
-        return {
-            statusCode: 200,
-            body: JSON.stringify({users})
-        }
-    }
-    catch(error){
-        console.log(error)
-    }
-}
 module.exports = {register,login,getUsers}

@@ -87,10 +87,4 @@ const registerService = async (body)=>{
         }
     }
 }
-const getUsersService = async ()=>{
-    const result = await dynamodb.scan({
-        TableName:'users'
-    }).promise()
-    return result.Items
-}
-module.exports = {getUsersService,registerService,loginService}
+module.exports = {registerService,loginService}

@@ -1,4 +1,4 @@
-const {sign, verify} = require("jsonwebtoken");
+const {sign} = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
