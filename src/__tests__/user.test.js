@@ -1,5 +1,5 @@
-const {loginService, registerService} = require('../services/user.service')
 const request = require('supertest')
+const {loginService,registerService} = require('../services/user.service')
 
 const requestLogin = request('https://1xvsj3adyf.execute-api.sa-east-1.amazonaws.com')
 
@@ -20,18 +20,20 @@ describe('user',()=>{
                 expect(body).toBeInstanceOf(Object)
             })
         })
-        describe('given email does not match',()=>{
-            const userLogin = {
-                "email":"martinng@nttdata.com",
-                "password":"martin.ng"
+    })
+    describe('user register',()=>{
+        const postLogin = requestLogin.post('/register')
+        describe('given email already exists',()=>{
+            const userRegister = {
+                "email":"martin.ng@nttdata.com",
+                "password":"abcd1234#",
+                "dni":56738492,
+                "name":"abcd",
+                "surname":"efg"
             }
-            it('should return status code 404', async()=>{
-                const {statusCode} = await postLogin.send(userLogin)
-                expect(statusCode).toBe(404)
-            })
-            it('should not return a body', async()=>{
-                const {body} = await postLogin.send(userLogin)
-                expect(body).toBeInstanceOf(null)
+            it('should return status code 400', async()=>{
+                const {statusCode} = await postLogin.send(userRegister)
+                expect(statusCode).toBe(400)
             })
         })
     })
