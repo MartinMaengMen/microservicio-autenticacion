@@ -1,7 +1,7 @@
 const { verify } = require("jsonwebtoken");
 const { generateAuthResponse } = require("../utils/jwt.handle");
 
-const jwtHandlerService = async(event)=>{
+const jwtHandlerService = (event,callback)=>{
     const token = event.authorizationToken.replace("Bearer ", "");
     const methodArn = event.methodArn;
   
