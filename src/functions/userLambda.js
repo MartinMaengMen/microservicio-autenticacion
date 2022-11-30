@@ -1,4 +1,4 @@
-const { getUsersService, registerService, loginService } = require('../services/user.service');
+const { registerService, loginService } = require('../services/user.service');
 
 const register = async (event)=>{
     try{
@@ -24,4 +24,4 @@ const login = async (event)=>{
         }
     }
 }
-module.exports = {register,login,getUsers}
+module.exports = {register,login}

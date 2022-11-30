@@ -9,7 +9,7 @@
     "serverless-auto-swagger": "^2.11.0"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "supertest": "^6.3.1"
+    "@shelf/jest-dynamodb": "^3.3.1",
+    "jest": "^29.3.1"
   }
 }

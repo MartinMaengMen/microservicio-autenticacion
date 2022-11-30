@@ -2,8 +2,9 @@ const AWS = require('aws-sdk');
 const { encrypt, decrypt } = require('../utils/bcrypt.handle');
 const { generateToken } = require('../utils/jwt.handle');
 const { validateParameters } = require('../utils/validations.handle');
+const {config} = require('../config/dynamodb-client')
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient({region: 'sa-east-1'});
 
 const loginService = async (body)=>{
         const {email,password} = JSON.parse(body)

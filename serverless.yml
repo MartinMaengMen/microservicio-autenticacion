@@ -36,7 +36,6 @@ functions:
       - httpApi:
           path: /login
           method: post
-          cors: true
 #  getUsers:
 #    handler: src/functions/userLambda.getUsers
 #    events:
