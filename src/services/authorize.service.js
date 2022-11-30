@@ -7,7 +7,7 @@ const jwtHandlerService = async(event)=>{
   
     if (!token || !methodArn) return callback(null, "Unauthorized");
   
-    const secret = process.env.JWT_SECRET | 'defaultSecretKey';
+    const secret = process.env.JWT_SECRET;
 
     const decoded = verify(token, secret);
   

@@ -1,6 +1,6 @@
 const {sign} = require("jsonwebtoken");
 
-const JWT_SECRET = process.env.JWT_SECRET | 'defaultSecretKey';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 function generatePolicyDocument(effect, methodArn) {
   if (!effect || !methodArn) return null;

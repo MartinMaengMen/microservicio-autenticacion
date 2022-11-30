@@ -25,7 +25,7 @@ describe('user',()=>{
                 expect(statusCode).toBe(403)
             })
         })
-        /*describe('given user is registered',()=>{
+        describe('given user is registered',()=>{
             const userLogin = {
                 email:"martin.ng@nttdata.com",
                 password:"martin.ng"
@@ -35,9 +35,9 @@ describe('user',()=>{
                 expect(statusCode).toBe(200)
                 expect(body).toBeInstanceOf(Object)
             })
-        })*/
+        })
     })
-    describe('user register',()=>{
+    /*describe('user register',()=>{
         describe('given email already exists',()=>{
             const userRegister = {
                 "email":"martin.ng@nttdata.com",
@@ -90,6 +90,6 @@ describe('user',()=>{
                 expect(statusCode).toBe(200)
             })
         })
-    })
+    })*/
 })
 
